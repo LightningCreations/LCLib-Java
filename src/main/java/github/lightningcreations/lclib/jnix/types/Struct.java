@@ -12,26 +12,26 @@ public abstract class Struct {
 		System.loadLibrary("lc-jni");
 		registerNatives();
 	}
-	private long obj;
+	private byte[] obj;
 	protected Struct() {
 		try {
 			init(getClass().getAnnotation(StructDecl.class));
 			final WeakReference<Struct> ref = new WeakReference<>(this);
 			Runtime.getRuntime().addShutdownHook(new Thread() {
 				public void run() {
-					if(ref.get()!=null&&obj!=0)
+					if(ref.get()!=null&&obj!=null)
 						_cxx_destroy();
 				}
 			});
 		}catch(Exception e) {
-			if(obj!=0)
+			if(obj!=null)
 				_cxx_destroy();
 		}
 	}
 	private native void init(StructDecl decl)throws Exception;
 	private native void _cxx_destroy();
 	protected final void finalize() {
-		if(obj!=0)
+		if(obj!=null)
 			_cxx_destroy();
 	}
 	protected native Object getField(String name);

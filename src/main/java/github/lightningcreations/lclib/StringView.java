@@ -1,15 +1,25 @@
 package github.lightningcreations.lclib;
 
+/**
+ * StringView is an immutable reference to a region of a String.
+ * StringView has O(1) substring operations.
+ * @author chorm
+ *
+ */
 public final class StringView implements CharSequence, Comparable<StringView> {
-
+	
+	/**
+	 * Copies the Underlying Character array of s,
+	 * @param s
+	 */
 	public StringView(String s) {
 		this(s.toCharArray(),0,s.length());
 		strRep = s;
 	}
 	
-	private char[] buffer;
-	private int base;
-	private int length;
+	private final char[] buffer;
+	private final int base;
+	private final int length;
 	private String strRep;
 	
 	public StringView(char[] chars) {

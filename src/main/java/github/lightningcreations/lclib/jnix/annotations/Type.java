@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 public @interface Type {
 	public enum CVQualifiers{
-		CONST, VOLATILE, CV, NONE
+		CONST, VOLATILE, CV, NONE;
 	};
 	String name();
 	CVQualifiers qualifiers() default CVQualifiers.NONE;

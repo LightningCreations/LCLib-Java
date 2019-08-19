@@ -50,7 +50,9 @@ public interface Hash {
 		return result;
 	}
 	public static int hashcode(Object o) {
-		if(o instanceof Integer)
+		if(o==null)
+			return -1;
+		else if(o instanceof Integer)
 			return hashcode(((Integer)o).intValue());
 		else if(o instanceof Byte)
 			return hashcode(((Byte) o).byteValue());
@@ -291,5 +293,9 @@ public interface Hash {
 			hash += c*p2;
 		}
 		return hash;
+	}
+	@SafeVarargs
+	public static <T> int sum(T...ts) {
+		return hashcode(ts);
 	}
 }
