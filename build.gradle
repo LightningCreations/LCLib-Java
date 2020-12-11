@@ -15,11 +15,12 @@ apply plugin: "maven"
 apply plugin: "maven-publish"
 apply plugin: "org.javamodularity.moduleplugin"
 
-sourceCompatibility = targetCompatibility = 11
+sourceCompatibility = targetCompatibility = 15
 
 group = "github.lightningcreations"
 archivesBaseName = "lclib-java"
 version = "1.0"
+
 
 repositories {
 	mavenLocal()

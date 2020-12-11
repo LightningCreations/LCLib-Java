@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 
 public interface Iterables {
 	public static <T> Iterable<T> fromEnumeration(final Enumeration<T> e){
-		return ()->e.asIterator();
+		return e::asIterator;
 	}
 	@SafeVarargs
 	public static <T> Iterable<T> join(final Iterable<? extends T> a,final Iterable<? extends T>... b){
@@ -40,6 +40,6 @@ public interface Iterables {
 			}
 		}
 			
-		return ()->new JoinedIterator();
+		return JoinedIterator::new;
 	}
 }

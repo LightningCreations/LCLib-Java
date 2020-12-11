@@ -1,6 +1,7 @@
 package github.lightningcreations.lclib.jnix.inline;
 
 import java.io.NotSerializableException;
+import java.io.Serial;
 
 import github.lightningcreations.lclib.jnix.annotations.PackedType;
 import github.lightningcreations.lclib.jnix.annotations.PotentiallyUndefined;
@@ -13,29 +14,30 @@ import github.lightningcreations.lclib.jnix.annotations.UseObjectRepresentationW
 @TypeMapsToPrimitive
 @UseObjectRepresentationWherePossible
 public final class LongDouble extends Number implements Comparable<LongDouble> {
-	
+
 	static {
 		registerNatives();
 	}
-	
+
 	private static native void registerNatives();
-	
-	private static final long serialVersionUID = -1329019263573057455L;
-	private byte[] allocSpace;
+
+	@Serial
+    private static final long serialVersionUID = -1329019263573057455L;
+	private final byte[] allocSpace;
 	private static final int sizeof = sizeof();
-	
+
 	public static final LongDouble ZERO = new LongDouble(0.0);
 	public static final LongDouble ONE = new LongDouble(1.0);
 	public static final LongDouble MONE = new LongDouble(-1.0);
 	public static final LongDouble Infinity = new LongDouble(Double.POSITIVE_INFINITY);
 	public static final LongDouble NegativeInfinity = new LongDouble(Double.NEGATIVE_INFINITY);
 	public static final LongDouble NaN = new LongDouble(Double.NaN);
-	
+
 	private LongDouble() {
 		allocSpace = new byte[sizeof];
 		init(allocSpace);
 	}
-	
+
 	private static native void init(byte[] targetSpace);
 	private static native void init(byte[] targetSpace,double val);
 	private static native void copy(byte[] targetSpace,byte[] srcSpace);
@@ -43,7 +45,7 @@ public final class LongDouble extends Number implements Comparable<LongDouble> {
 	private static native boolean lessCmp(byte[] a,byte[] b);
 	private static native boolean eqCmp(byte[] a,byte[] b);
 	private static native int sizeof();
-	
+
 	public LongDouble(double value) {
 		allocSpace = new byte[sizeof];
 		init(allocSpace,value);
@@ -65,14 +67,14 @@ public final class LongDouble extends Number implements Comparable<LongDouble> {
 		// TODO Auto-generated method stub
 		return (long)doubleValue();
 	}
-	
+
 	public native String toString();
 	public LongDouble clone() {
 		LongDouble nldouble = new LongDouble();
 		copy(nldouble.allocSpace,this.allocSpace);
 		return nldouble;
 	}
-	
+
 	public native static LongDouble add(LongDouble a,LongDouble b);
 	public native static LongDouble subtract(LongDouble a,LongDouble b);
 	public native static LongDouble negate(LongDouble a);
@@ -91,11 +93,11 @@ public final class LongDouble extends Number implements Comparable<LongDouble> {
 		else
 			return 0;
 	}
-	
+
 	public int hashCode() {
 		return hash(allocSpace);
 	}
-	
+
 	public boolean equals(Object o) {
 		if(o==null)
 			return false;
@@ -106,12 +108,14 @@ public final class LongDouble extends Number implements Comparable<LongDouble> {
 		else
 			return eqCmp(allocSpace,((LongDouble)o).allocSpace);
 	}
-	
-	private Object writeReplace() throws NotSerializableException {
+
+	@Serial
+    private Object writeReplace() throws NotSerializableException {
 		throw new NotSerializableException();
 	}
-	private Object readResolve() throws NotSerializableException{
+	@Serial
+    private Object readResolve() throws NotSerializableException{
 		throw new NotSerializableException();
 	}
-	
+
 }

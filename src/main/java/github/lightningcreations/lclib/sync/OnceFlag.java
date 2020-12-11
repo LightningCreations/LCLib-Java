@@ -2,12 +2,19 @@ package github.lightningcreations.lclib.sync;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 public class OnceFlag {
-	private AtomicBoolean val = new AtomicBoolean();
-	public OnceFlag() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	
+	private final AtomicBoolean val = new AtomicBoolean();
+
+	public void callOnce(Runnable r){
+	    if(!val.getAcquire()){
+	        synchronized(this){
+	            if(!val.getAcquire()){
+	                r.run();
+	                val.setRelease(true);
+                }
+            }
+        }
+    }
 
 }

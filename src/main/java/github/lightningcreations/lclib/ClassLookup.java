@@ -18,6 +18,7 @@ public interface ClassLookup {
 				String name = p.getName().replaceAll("\\.", "\\");
 				Path pkgSubpath = Paths.get(name);
 				URL pkgURL = ctxLoader.getResource(name);
+				assert pkgURL!=null;
 				Path pkgPath = Paths.get(pkgURL.toURI());
 				for(URL s:Iterables.fromEnumeration(ctxLoader.getResources(name))) {
 					Path lPath = Paths.get(s.toURI()).relativize(pkgPath).resolve(pkgSubpath);
@@ -39,5 +40,5 @@ public interface ClassLookup {
 	public static Stream<Class<?>> getClasses(){
 		return getClasses(Thread.currentThread().getContextClassLoader());
 	}
-	
+
 }
